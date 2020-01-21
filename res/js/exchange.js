@@ -6,8 +6,11 @@ window.exchange = {
 
 window.api = {
   account: {
+    user: function() {
+      return firebase.auth().currentUser;
+    },
     create: function(email, password) {
-      firebase.auth().createUserWithEmailAndPassword(email, password)
+      return firebase.auth().createUserWithEmailAndPassword(email, password)
       .catch(error => {
         console.error("FIREBASE AUTH ERROR: "+error.code);
       })
@@ -16,7 +19,7 @@ window.api = {
       });
     },
     signin: function(email, password) {
-      firebase.auth().signInWithEmailAndPassword(email, password)
+      return firebase.auth().signInWithEmailAndPassword(email, password)
       .catch(error => {
         console.error("FIREBASE AUTH ERROR: "+error.code);
       })
@@ -25,7 +28,7 @@ window.api = {
       });
     },
     signout: function() {
-      firebase.auth().signOut()
+      return firebase.auth().signOut()
       .then(() => {
         console.log("ACCOUNT LOGGED OUT.");
       }).catch(error => {
