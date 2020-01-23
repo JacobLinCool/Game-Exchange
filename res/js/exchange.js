@@ -131,6 +131,7 @@ function SIGN() {
     var increment = Math.floor(20+Math.random()*20);
     db.collection("user").doc(api.account.user().uid).update({
       exp: firebase.firestore.FieldValue.increment(increment)
+      last: Date()
     });
   }
 }
