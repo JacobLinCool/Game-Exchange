@@ -34,10 +34,11 @@
         <div class="page page-home">
             <div>
                 <h1>Hi, <span class="username"></span></h1>
+                <div class="container collection-container"></div>
             </div>
         </div>
         <div class="page page-sign">
-            SIGN
+            <button id="sign-btn" type="button" class="btn btn-primary" onclick="SIGN()">Sign</button>
         </div>
         <div class="page page-share">
             SHARE
@@ -93,7 +94,7 @@
     <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-firestore.js"></script>
     <script>var fbC={apiKey:"AIzaSyDrOi5f_kKk0sTG3PvadR27dHTtk-EojHE",authDomain:"game-exchange-2020.firebaseapp.com",databaseURL:"https://game-exchange-2020.firebaseio.com",projectId:"game-exchange-2020",
-    storageBucket:"game-exchange-2020.appspot.com",messagingSenderId:"19519313281",appId:"1:19519313281:web:a047e7744b8eeffef3c480"};firebase.initializeApp(fbC);</script>
+    storageBucket:"game-exchange-2020.appspot.com",messagingSenderId:"19519313281",appId:"1:19519313281:web:a047e7744b8eeffef3c480"};firebase.initializeApp(fbC);var db = firebase.firestore();</script>
     <script src="res/js/exchange.js?ver=0.0.1"></script>
 </body>
 </html>
