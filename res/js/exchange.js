@@ -62,6 +62,8 @@ window.api = {
     listen: function() {
       return db.collection("user").doc(api.account.user().uid).onSnapshot(doc => {
         api.sign.data = doc.data();
+        document.getElementById("level").innerHTML = "Level: " + Math.floor(api.sign.data.exp/100);
+        document.getElementById("exp-bar").style.width = "" + (api.sign.data.exp%100) + "%";
         if(api.sign.data.last.toMillis() + 86400000 > Date.now()) {
           var timeleft = Math.floor((api.sign.data.last.toMillis() + 86400000 - Date.now())/1000);
           document.getElementById("sign-btn").innerHTML = "Sign again after " + (timeleft > 3600? ("" + Math.floor(timeleft/3600) + " hour(s)") : (timeleft > 60? ("" + Math.floor(timeleft/60) + " minute(s)") : ("" + timeleft + " second(s)")));
