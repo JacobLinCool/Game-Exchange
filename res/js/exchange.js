@@ -63,7 +63,8 @@ window.api = {
       return db.collection("user").doc(api.account.user().uid).onSnapshot(doc => {
         api.sign.data = doc.data();
         if(api.sign.data.last.toMillis() + 86400000 > Date.now()) {
-          document.getElementById("sign-btn").innerHTML = "Sign again after " + ((api.sign.data.last.toDate() + 86400000 - Date.now())/1000) + " seconds";
+          var timeleft = Math.floor((api.sign.data.last.toMillis() + 86400000 - Date.now())/1000);
+          document.getElementById("sign-btn").innerHTML = "Sign again after " + (timeleft > 3600? ("" + Math.floor(timeleft/3600) + " hour(s)") : (timeleft > 60? ("" + Math.floor(timeleft/60) + " minute(s)") : ("" + timeleft + " second(s)")));
           document.getElementById("sign-btn").disabled = true;
         }
         else {
