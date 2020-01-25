@@ -18,3 +18,7 @@ td, td > img {
   height: 100px;
   border: 0.5px solid gray;
 }
+tr, td {
+  margin: 0;
+  padding: 0;
+}
