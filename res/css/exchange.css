@@ -22,3 +22,7 @@ tr, td {
   margin: 0;
   padding: 0;
 }
+.spinner-border {
+  -webkit-animation: spinner-border .5s linear infinite;
+  animation: spinner-border .5s linear infinite;
+}
