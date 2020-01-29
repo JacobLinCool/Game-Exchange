@@ -128,7 +128,7 @@ function signUp() {
 
 async function parseCollection(raw) {
   var cc = document.getElementsByClassName("collection-container")[0];
-  cc.innerHTML = "";
+  cc.innerHTML = "<span id='ld-c' class='spinner-border spinner-border-sm'></span> Loading Your Collections";
   var c = {};
   for(var i = 0; i < raw.length; i++) {
     if(!c[raw[i].belong]) c[raw[i].belong] = [];
@@ -167,6 +167,7 @@ async function parseCollection(raw) {
     barrier.appendChild(progress);
     if(g+1 < (area[0]*area[1])) cc.appendChild(barrier);
     cc.appendChild(puzzle);
+    document.getElementById("ld-c").remove();
   }
 }
 
