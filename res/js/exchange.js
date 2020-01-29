@@ -76,22 +76,24 @@ window.api = {
   sign: {
     listen: function() {
       return db.collection("user").doc(api.account.user().uid).onSnapshot(doc => {
-        api.sign.data = doc.data();
-        if(api.sign.data === undefined) {
-          db.collection("user").doc(api.account.user().uid).set({exp: 0, last: new Date(0)});
-        }
-        else {
-          document.getElementById("level").innerHTML = "Level: " + Math.floor(api.sign.data.exp/100);
-          document.getElementById("exp-bar").style.width = "" + (api.sign.data.exp%100) + "%";
-          document.getElementById("exp").innerHTML = "" + (api.sign.data.exp%100) + " / 100";
-          if(api.sign.data.last.toMillis() + 86400000 > Date.now()) {
-            var timeleft = Math.floor((api.sign.data.last.toMillis() + 86400000 - Date.now())/1000);
-            document.getElementById("sign-btn").innerHTML = "Sign again after " + (timeleft > 3600? ("" + Math.floor(timeleft/3600) + " hour(s)") : (timeleft > 60? ("" + Math.floor(timeleft/60) + " minute(s)") : ("" + timeleft + " second(s)")));
-            document.getElementById("sign-btn").disabled = true;
+        if(!doc.metadata.hasPendingWrites) {
+          api.sign.data = doc.data();
+          if(api.sign.data === undefined) {
+            db.collection("user").doc(api.account.user().uid).set({exp: 0, last: new Date(0)});
           }
           else {
-            document.getElementById("sign-btn").innerHTML = "Sign Now";
-            document.getElementById("sign-btn").disabled = false;
+            document.getElementById("level").innerHTML = "Level: " + Math.floor(api.sign.data.exp/100);
+            document.getElementById("exp-bar").style.width = "" + (api.sign.data.exp%100) + "%";
+            document.getElementById("exp").innerHTML = "" + (api.sign.data.exp%100) + " / 100";
+            if(api.sign.data.last.toMillis() + 86400000 > Date.now()) {
+              var timeleft = Math.floor((api.sign.data.last.toMillis() + 86400000 - Date.now())/1000);
+              document.getElementById("sign-btn").innerHTML = "Sign again after " + (timeleft > 3600? ("" + Math.floor(timeleft/3600) + " hour(s)") : (timeleft > 60? ("" + Math.floor(timeleft/60) + " minute(s)") : ("" + timeleft + " second(s)")));
+              document.getElementById("sign-btn").disabled = true;
+            }
+            else {
+              document.getElementById("sign-btn").innerHTML = "Sign Now";
+              document.getElementById("sign-btn").disabled = false;
+            }
           }
         }
       });
@@ -214,6 +216,8 @@ function SIGN() {
   else {
     var o_level = Math.floor(api.sign.data.exp/100);
     var increment = Math.floor(20+Math.random()*20);
+    document.getElementById("sign-btn").innerHTML = "<span class='spinner-border spinner-border-sm'></span> Signing";
+    document.getElementById("sign-btn").disabled = true;
     db.collection("user").doc(api.account.user().uid).update({
       exp: firebase.firestore.FieldValue.increment(increment),
       last: new Date()
