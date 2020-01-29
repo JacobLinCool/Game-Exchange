@@ -128,7 +128,7 @@ function signUp() {
 
 async function parseCollection(raw) {
   var cc = document.getElementsByClassName("collection-container")[0];
-  cc.innerHTML = "<span id='ld-c' class='spinner-border spinner-border-sm'></span> Loading Your Collections";
+  cc.innerHTML = "<span id='ld-c'><span class='spinner-border spinner-border-sm'></span> Loading Your Collections<br></span>";
   var c = {};
   for(var i = 0; i < raw.length; i++) {
     if(!c[raw[i].belong]) c[raw[i].belong] = [];
