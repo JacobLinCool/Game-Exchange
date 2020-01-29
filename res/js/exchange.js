@@ -75,7 +75,7 @@ window.api = {
   },
   sign: {
     listen: function() {
-      return db.collection("user").doc(api.account.user().uid).onSnapshot(doc => {
+      return db.collection("user").doc(api.account.user().uid).onSnapshot({includeMetadataChanges: true}, doc => {
         if(!doc.metadata.hasPendingWrites) {
           api.sign.data = doc.data();
           if(api.sign.data === undefined) {
