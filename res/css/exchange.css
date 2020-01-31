@@ -29,6 +29,3 @@ tr, td {
 .ldd-h {
   display: none !important;
 }
-.list-group-item {
-  border-color: rgba(44, 62, 80, 0.4);
-}

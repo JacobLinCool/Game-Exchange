@@ -77,6 +77,7 @@ window.api = {
     listen: function() {
       return db.collection("user").doc(api.account.user().uid).onSnapshot({includeMetadataChanges: true}, doc => {
         if(!doc.metadata.hasPendingWrites) {
+          document.getElementById("ldd-exp").style.display = "none";
           api.sign.data = doc.data();
           if(api.sign.data === undefined) {
             db.collection("user").doc(api.account.user().uid).set({exp: 0, last: new Date(0)});
@@ -85,8 +86,8 @@ window.api = {
             document.getElementById("level").innerHTML = "Level: " + Math.floor(api.sign.data.exp/100);
             document.getElementById("exp-bar").style.width = "" + (api.sign.data.exp%100) + "%";
             document.getElementById("exp").innerHTML = "" + (api.sign.data.exp%100) + " / 100";
-            if(api.sign.data.last.toMillis() + 86400000 > Date.now()) {
-              var timeleft = Math.floor((api.sign.data.last.toMillis() + 86400000 - Date.now())/1000);
+            if(api.sign.data.last.toMillis() + 72000000 > Date.now()) {
+              var timeleft = Math.floor((api.sign.data.last.toMillis() + 72000000 - Date.now())/1000);
               document.getElementById("sign-btn").innerHTML = "Sign again after " + (timeleft > 3600? ("" + Math.floor(timeleft/3600) + " hour(s)") : (timeleft > 60? ("" + Math.floor(timeleft/60) + " minute(s)") : ("" + timeleft + " second(s)")));
               document.getElementById("sign-btn").disabled = true;
             }
@@ -106,6 +107,12 @@ window.api = {
       for(var i = 0; i < 28; i++) r += mt[Math.floor(Math.random()*mt.length)];
       return r;
     }
+  },
+  image: {
+    get: async function(belong, pid) {
+      if(!localStorage["image-"+belong+"-"+pid]) localStorage["image-"+belong+"-"+pid] = await fetch("https://game-exchange-2020.firebaseio.com/exchange/puzzle/" + belong + "/" + pid + "/img.json").then(r=>r.json());
+      return localStorage["image-"+belong+"-"+pid];
+    }
   }
 };
 
@@ -118,6 +125,7 @@ function togglePage(page) {
   });
   document.getElementsByClassName("page-"+page)[0].style.display = "block";
   try { document.getElementsByClassName("nav-"+page)[0].classList.add("active"); } catch(e) {}
+  localStorage["page"] = page;
 }
 
 function signIn() {api.account.signin(document.getElementById("in-email").value, document.getElementById("in-password").value);};
@@ -159,7 +167,7 @@ async function parseCollection(raw) {
     for(var i in c[collection]) {
       var speice = c[collection][i];
       var img = document.createElement("img");
-      img.src = await fetch("https://game-exchange-2020.firebaseio.com/exchange/puzzle/" + speice.belong + "/" + speice.pid + "/img.json").then(r=>r.json());
+      img.src = await api.image.get(speice.belong, speice.pid);
       speice.position = [JSON.parse(speice.position)[2],JSON.parse(speice.position)[3]];
       puzzle.children[speice.position[0]].children[speice.position[1]].appendChild(img);
       progress.innerHTML = ""+(Number(i)+1)+" / "+(area[0]*area[1]);
@@ -185,7 +193,7 @@ async function parseCollection(raw) {
         item.classList.add("list-group-item", "list-group-item-action");
         item.style.overflow = "hidden";
         var img = document.createElement("img");
-        img.src = await fetch("https://game-exchange-2020.firebaseio.com/exchange/puzzle/" + speice.belong + "/" + speice.pid + "/img.json").then(r=>r.json());
+        img.src = await api.image.get(speice.belong, speice.pid);
         img.style.width = img.style.height = "120px";
         img.style.margin = "-12px 0px -12px -20px";
         var acts = document.createElement("div");
@@ -242,7 +250,7 @@ async function getNew() {
 }
 
 function SIGN() {
-  if(api.sign.data.last.toMillis() + 86400000 > Date.now()) {
+  if(api.sign.data.last.toMillis() + 72000000 > Date.now()) {
     console.log("SIGN FAILED");
   }
   else {
@@ -277,7 +285,7 @@ firebase.auth().onAuthStateChanged(() => {
     });
     window.collection = api.collection.listen(parseCollection);
     window.sign = api.sign.listen();
-    togglePage("home");
+    togglePage(localStorage["page"] || "home");
   }
   document.getElementById("ba").remove();
 });
