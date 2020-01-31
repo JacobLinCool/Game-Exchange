@@ -29,3 +29,9 @@ tr, td {
 .ldd-h {
   display: none !important;
 }
+.list-group-item {
+  padding: initial;
+}
+.share-box {
+  max-width: 45vw;
+}

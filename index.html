@@ -20,21 +20,27 @@
 
             <div class="collapse navbar-collapse" id="navbar1">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item nav-home active">
+                    <li class="nav-item nav-sign-in nav-s-out">
+                        <a class="nav-link" href="javascript:togglePage('signin')">Sign In</a>
+                    </li>
+                    <li class="nav-item nav-sign-up nav-s-out">
+                        <a class="nav-link" href="javascript:togglePage('signup')">Sign Up</a>
+                    </li>
+                    <li class="nav-item nav-home nav-s-in">
                         <a class="nav-link" href="javascript:togglePage('home')">Home</a>
                     </li>
-                    <li class="nav-item nav-sign">
+                    <li class="nav-item nav-sign nav-s-in">
                         <a class="nav-link" href="javascript:togglePage('sign')">Sign</a>
                     </li>
-                    <li class="nav-item nav-share">
+                    <li class="nav-item nav-share nav-s-in">
                         <a class="nav-link" href="javascript:togglePage('share')">Share</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item nav-about">
+                    <li class="nav-item nav-about nav-s-in">
                         <a class="nav-link" href="javascript:togglePage('about')">About</a>
                     </li>
-                    <li class="nav-item nav-sign-out" style="display: none">
+                    <li class="nav-item nav-sign-out nav-s-in">
                         <a class="nav-link" href="javascript:api.account.signout()">Sign Out</a>
                     </li>
                 </ul>
@@ -104,14 +110,14 @@
             </div>
             <div class="page page-about">
                 <h2>Game: Exchange</h2>
-                <p style="color: rgba(0,0,0,.5)">version: 0.0.0008</p>
+                <p style="color: rgba(0,0,0,.5)">version: 0.0.0009</p>
             </div>
         </div>
         <!-- Main Body End -->
     </div>
 
     <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/flatly/bootstrap.min.css" rel="stylesheet">
-    <link href="res/css/exchange.css?ver=0.0.0008" rel="stylesheet">
+    <link href="res/css/exchange.css?ver=0.0.0009" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
@@ -120,6 +126,7 @@
     <script>var fbC={apiKey:"AIzaSyDrOi5f_kKk0sTG3PvadR27dHTtk-EojHE",authDomain:"game-exchange-2020.firebaseapp.com",databaseURL:"https://game-exchange-2020.firebaseio.com",projectId:"game-exchange-2020",
     storageBucket:"game-exchange-2020.appspot.com",messagingSenderId:"19519313281",appId:"1:19519313281:web:a047e7744b8eeffef3c480"};firebase.initializeApp(fbC);var db = firebase.firestore();</script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-    <script src="res/js/exchange.js?ver=0.0.0008"></script>
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+    <script src="res/js/exchange.js?ver=0.0.0009"></script>
 </body>
 </html>

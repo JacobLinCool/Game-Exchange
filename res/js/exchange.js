@@ -24,6 +24,7 @@ window.api = {
         .then(() => {
           console.log("ACCOUNT NAME SET.");
           Swal.fire("Success", "", "success");
+          localStorage["page"] = "";
           setTimeout(function(){location.reload();}, 500);
         })
         .catch(error => {
@@ -47,6 +48,7 @@ window.api = {
       .then(user => {
         console.log("ACCOUNT LOGGED IN. "+user);
         Swal.fire("Success", "", "success");
+        localStorage["page"] = "";
         setTimeout(function(){location.reload();}, 500);
       });
     },
@@ -146,13 +148,11 @@ async function parseCollection(raw) {
   for(var collection in c) {
     var puzzle = document.createElement("table");
     var barrier = document.createElement("div");
-    barrier.style.width = "301.3px";
-    barrier.style.height = "301.3px";
+    barrier.style.width = barrier.style.height = "301.3px";
     barrier.style.backgroundColor = "rgba(255, 255, 255, 0.5)";
     barrier.style.position = "absolute";
     barrier.style.display = "flex";
-    barrier.style.justifyContent = "center";
-    barrier.style.alignItems = "center";
+    barrier.style.justifyContent = barrier.style.alignItems = "center";
     var progress = document.createElement("h2");
     var area = JSON.parse(c[collection][0].position);
     for(var i = 0; i < area[0]; i++) {
@@ -195,9 +195,27 @@ async function parseCollection(raw) {
         var img = document.createElement("img");
         img.src = await api.image.get(speice.belong, speice.pid);
         img.style.width = img.style.height = "120px";
-        img.style.margin = "-12px 0px -12px -20px";
         var acts = document.createElement("div");
         acts.style.display = "inline-block";
+        acts.style.margin = "0 8px";
+        var shareCounter = document.createElement("p");
+        shareCounter.innerHTML = "Shared: " + speice.shared + " / " + (speice.maxShare || "5");
+        var shareBox = document.createElement("div");
+        var shareInput = document.createElement("input");
+        var shareCopyBox = document.createElement("div");
+        var shareCopyBtn = document.createElement("button");
+        shareBox.classList.add("input-group", "share-box");
+        shareInput.type = "text"; shareInput.classList.add("form-control");
+        shareCopyBox.classList.add("input-group-append");
+        shareCopyBtn.classList.add("input-group-text", "copyBtn");
+        shareCopyBtn.innerHTML = "Copy";
+        shareCopyBtn.dataset.clipboardText = shareInput.value = location.href + "/?invitation=" + api.account.user().uid + ";" + speice.pid;
+        shareCopyBtn.onclick = function(){Swal.fire("Copied!", "Share the invitation to others!", "success")};
+        shareCopyBox.appendChild(shareCopyBtn);
+        shareBox.appendChild(shareInput);
+        shareBox.appendChild(shareCopyBox);
+        acts.appendChild(shareCounter);
+        acts.appendChild(shareBox);
         item.appendChild(img);
         item.appendChild(acts);
         list.appendChild(item);
@@ -274,15 +292,25 @@ function SIGN() {
   }
 }
 
+new ClipboardJS(".copyBtn");
+var GET = (function(){
+  var x = location.href;
+  var KVs = x.search(/\?/)>-1?x.substr(x.search(/\?/)+1).split("&"):[];
+  var m = {};
+  for(i in KVs) {
+    let KV = KVs[i].split("=");
+    m[KV[0]] = KV[1];
+  }
+  return m;
+})();
 firebase.auth().onAuthStateChanged(() => {
   if(api.account.user() === null) {
+    Array.from(document.getElementsByClassName("nav-s-in")).forEach(elm => {elm.style.display = "none"});
     togglePage("signin");
   }
   else {
-    document.getElementsByClassName("nav-sign-out")[0].style.display = "";
-    Array.from(document.getElementsByClassName("username")).forEach(elm => {
-      elm.innerHTML = api.account.user().displayName;
-    });
+    Array.from(document.getElementsByClassName("nav-s-out")).forEach(elm => {elm.style.display = "none"});
+    Array.from(document.getElementsByClassName("username")).forEach(elm => {elm.innerHTML = api.account.user().displayName;});
     window.collection = api.collection.listen(parseCollection);
     window.sign = api.sign.listen();
     togglePage(localStorage["page"] || "home");
