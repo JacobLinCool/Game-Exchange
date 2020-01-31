@@ -26,3 +26,9 @@ tr, td {
   -webkit-animation: spinner-border .5s linear infinite;
   animation: spinner-border .5s linear infinite;
 }
+.ldd-h {
+  display: none !important;
+}
+.list-group-item {
+  border-color: rgba(44, 62, 80, 0.4);
+}

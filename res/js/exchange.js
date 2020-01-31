@@ -127,13 +127,14 @@ function signUp() {
 };
 
 async function parseCollection(raw) {
-  var cc = document.getElementsByClassName("collection-container")[0];
-  cc.innerHTML = "<span id='ld-c'><span class='spinner-border spinner-border-sm'></span> Loading Your Collections<br></span>";
   var c = {};
   for(var i = 0; i < raw.length; i++) {
     if(!c[raw[i].belong]) c[raw[i].belong] = [];
     c[raw[i].belong].push(raw[i]);
   }
+  // home page
+  var cc = document.getElementsByClassName("collection-container")[0];
+  cc.innerHTML = "<span id='ld-c'><span class='spinner-border spinner-border-sm'></span> Loading Your Collections<br></span>";
   for(var collection in c) {
     var puzzle = document.createElement("table");
     var barrier = document.createElement("div");
@@ -168,6 +169,36 @@ async function parseCollection(raw) {
     if(g+1 < (area[0]*area[1])) cc.appendChild(barrier);
     cc.appendChild(puzzle);
     document.getElementById("ld-c").remove();
+
+    // share page
+    var cont = document.getElementById("share-container");
+    cont.innerHTML = "<span id='ld-c2'><span class='spinner-border spinner-border-sm'></span> Loading<br></span>";
+    for(var collection in c) {
+      var collec = document.createElement("div");
+      var head = document.createElement("h3");
+      var list = document.createElement("ul");
+      head.innerHTML = collection;
+      list.classList.add("list-group");
+      for(var i in c[collection]) {
+        var speice = c[collection][i];
+        var item = document.createElement("li");
+        item.classList.add("list-group-item", "list-group-item-action");
+        item.style.overflow = "hidden";
+        var img = document.createElement("img");
+        img.src = await fetch("https://game-exchange-2020.firebaseio.com/exchange/puzzle/" + speice.belong + "/" + speice.pid + "/img.json").then(r=>r.json());
+        img.style.width = img.style.height = "120px";
+        img.style.margin = "-12px 0px -12px -20px";
+        var acts = document.createElement("div");
+        acts.style.display = "inline-block";
+        item.appendChild(img);
+        item.appendChild(acts);
+        list.appendChild(item);
+      }
+      collec.appendChild(head);
+      collec.appendChild(list);
+      cont.appendChild(collec);
+    }
+    document.getElementById("ld-c2").remove();
   }
 }
 

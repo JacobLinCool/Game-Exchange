@@ -4,101 +4,113 @@
     <title>Game: Exchange</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style id="ba">body{display: none;}</style>
+    <style id="ba">.ldd-s {display: none !important; }</style>
 </head>
 <body>
-    <!-- Navigation Start -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="./">Exchange</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar1" aria-controls="navbar1" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbar1">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item nav-home active">
-                    <a class="nav-link" href="javascript:togglePage('home')">Home</a>
-                </li>
-                <li class="nav-item nav-sign">
-                    <a class="nav-link" href="javascript:togglePage('sign')">Sign</a>
-                </li>
-                <li class="nav-item nav-share">
-                    <a class="nav-link" href="javascript:togglePage('share')">Share</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item nav-sign-out" style="display: none">
-                    <a class="nav-link" href="javascript:api.account.signout()">Sign Out</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <!-- Navigation End -->
-    <!-- Main Body Start -->
-    <div class="wrapper">
-        <div class="page page-home">
-            <div>
-                <h1>Hi, <span class="username"></span></h1>
-                <div class="container collection-container"></div>
-            </div>
-        </div>
-        <div class="page page-sign">
-            <h3 id="level"></h3>
-            <div class="progress">
-                <div id="exp-bar" class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar"></div>
-            </div>
-            <span id="exp"></span>
-            <br><br>
-            <button id="sign-btn" type="button" class="btn btn-primary" onclick="SIGN()">Sign</button>
-        </div>
-        <div class="page page-share">
-            SHARE
-        </div>
-        <div class="page page-signin">
-            <div class="form">
-                <fieldset>
-                    <legend>Sign In</legend>
-                    <div class="form-group">
-                        <label for="in-email">Email address</label>
-                        <input type="email" class="form-control" id="in-email" placeholder="Enter email">
-                    </div>
-                    <div class="form-group">
-                        <label for="in-password">Password</label>
-                        <input type="password" class="form-control" id="in-password" placeholder="Password">
-                    </div>
-                    <button type="button" class="btn btn-primary" onclick="signIn()">Sign In</button> <span class="ml-2">or <a href="javascript:togglePage('signup')">Sign Up</a></span>
-                </fieldset>
-            </div>
-        </div>
-        <div class="page page-signup">
-            <div class="form">
-                <fieldset>
-                    <legend>Sign Up</legend>
-                    <div class="form-group">
-                        <label for="up-name">Your name</label>
-                        <input type="text" class="form-control" id="up-name" placeholder="Your Name">
-                    </div>
-                    <div class="form-group">
-                        <label for="up-email">Email address</label>
-                        <input type="email" class="form-control" id="up-email" placeholder="Enter email">
-                    </div>
-                    <div class="form-group">
-                        <label for="up-password">Password</label>
-                        <input type="password" class="form-control" id="up-password" placeholder="Password">
-                    </div>
-                    <div class="form-group">
-                        <label for="up-password2">Repeat Password</label>
-                        <input type="password" class="form-control" id="up-password2" placeholder="Repeat Password">
-                    </div>
-                    <button type="button" class="btn btn-primary" onclick="signUp()">Sign Up</button> <span class="ml-2">or <a href="javascript:togglePage('signin')">Sign In</a></span>
-                </fieldset>
-            </div>
-        </div>
+    <div class="ldd-h">
+        <h3 style="font-family: sans-serif">Loading...</h3>
     </div>
-    <!-- Main Body End -->
+    <div class="ldd-s">
+        <!-- Navigation Start -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <a class="navbar-brand" href="./">Exchange</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar1" aria-controls="navbar1" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbar1">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item nav-home active">
+                        <a class="nav-link" href="javascript:togglePage('home')">Home</a>
+                    </li>
+                    <li class="nav-item nav-sign">
+                        <a class="nav-link" href="javascript:togglePage('sign')">Sign</a>
+                    </li>
+                    <li class="nav-item nav-share">
+                        <a class="nav-link" href="javascript:togglePage('share')">Share</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item nav-about">
+                        <a class="nav-link" href="javascript:togglePage('about')">About</a>
+                    </li>
+                    <li class="nav-item nav-sign-out" style="display: none">
+                        <a class="nav-link" href="javascript:api.account.signout()">Sign Out</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- Navigation End -->
+        <!-- Main Body Start -->
+        <div class="wrapper">
+            <div class="page page-home">
+                <div>
+                    <h1>Hi, <span class="username"></span></h1>
+                    <div class="container collection-container"></div>
+                </div>
+            </div>
+            <div class="page page-sign">
+                <h3 id="level"></h3>
+                <div class="progress">
+                    <div id="exp-bar" class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar"></div>
+                </div>
+                <span id="exp"></span>
+                <br><br>
+                <button id="sign-btn" type="button" class="btn btn-primary" onclick="SIGN()">Sign</button>
+            </div>
+            <div class="page page-share">
+                <div id="share-container"></div>
+            </div>
+            <div class="page page-signin">
+                <div class="form">
+                    <fieldset>
+                        <legend>Sign In</legend>
+                        <div class="form-group">
+                            <label for="in-email">Email address</label>
+                            <input type="email" class="form-control" id="in-email" placeholder="Enter email">
+                        </div>
+                        <div class="form-group">
+                            <label for="in-password">Password</label>
+                            <input type="password" class="form-control" id="in-password" placeholder="Password">
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="signIn()">Sign In</button> <span class="ml-2">or <a href="javascript:togglePage('signup')">Sign Up</a></span>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="page page-signup">
+                <div class="form">
+                    <fieldset>
+                        <legend>Sign Up</legend>
+                        <div class="form-group">
+                            <label for="up-name">Your name</label>
+                            <input type="text" class="form-control" id="up-name" placeholder="Your Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="up-email">Email address</label>
+                            <input type="email" class="form-control" id="up-email" placeholder="Enter email">
+                        </div>
+                        <div class="form-group">
+                            <label for="up-password">Password</label>
+                            <input type="password" class="form-control" id="up-password" placeholder="Password">
+                        </div>
+                        <div class="form-group">
+                            <label for="up-password2">Repeat Password</label>
+                            <input type="password" class="form-control" id="up-password2" placeholder="Repeat Password">
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="signUp()">Sign Up</button> <span class="ml-2">or <a href="javascript:togglePage('signin')">Sign In</a></span>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="page page-about">
+                <h2>About This App</h2>
+                <p>version: 0.0.0007</p>
+            </div>
+        </div>
+        <!-- Main Body End -->
+    </div>
 
     <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/flatly/bootstrap.min.css" rel="stylesheet">
-    <link href="res/css/exchange.css?ver=0.0.0006" rel="stylesheet">
+    <link href="res/css/exchange.css?ver=0.0.0007" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
@@ -107,6 +119,6 @@
     <script>var fbC={apiKey:"AIzaSyDrOi5f_kKk0sTG3PvadR27dHTtk-EojHE",authDomain:"game-exchange-2020.firebaseapp.com",databaseURL:"https://game-exchange-2020.firebaseio.com",projectId:"game-exchange-2020",
     storageBucket:"game-exchange-2020.appspot.com",messagingSenderId:"19519313281",appId:"1:19519313281:web:a047e7744b8eeffef3c480"};firebase.initializeApp(fbC);var db = firebase.firestore();</script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-    <script src="res/js/exchange.js?ver=0.0.0006"></script>
+    <script src="res/js/exchange.js?ver=0.0.0007"></script>
 </body>
 </html>
