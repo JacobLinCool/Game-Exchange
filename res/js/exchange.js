@@ -148,7 +148,7 @@ async function parseCollection(raw) {
   for(var collection in c) {
     var puzzle = document.createElement("table");
     var barrier = document.createElement("div");
-    barrier.style.width = barrier.style.height = "301.3px";
+    barrier.style.width = barrier.style.height = "302.3px";
     barrier.style.backgroundColor = "rgba(255, 255, 255, 0.5)";
     barrier.style.position = "absolute";
     barrier.style.display = "flex";
@@ -209,7 +209,7 @@ async function parseCollection(raw) {
         shareCopyBox.classList.add("input-group-append");
         shareCopyBtn.classList.add("input-group-text", "copyBtn");
         shareCopyBtn.innerHTML = "Copy";
-        shareCopyBtn.dataset.clipboardText = shareInput.value = location.href + "/?invitation=" + api.account.user().uid + ";" + speice.pid;
+        shareCopyBtn.dataset.clipboardText = shareInput.value = location.href + "?invitation=" + api.account.user().uid + ";" + speice.pid;
         shareCopyBtn.onclick = function(){Swal.fire("Copied!", "Share the invitation to others!", "success")};
         shareCopyBox.appendChild(shareCopyBtn);
         shareBox.appendChild(shareInput);
@@ -267,6 +267,39 @@ async function getNew() {
   else Swal.fire("WOW", "You Already Got All Shard!", "info");
 }
 
+async function getShared(invitation) {
+  Swal.fire("Checking Invitation...", "", "info");
+  var inv = invitation.split(";");
+  var had = await db.collection("exchange").where("user", "==", api.account.user().uid).where("pid", "==", inv[1]).get().then(qs => qs.size);
+  if(had) {
+    Swal.fire("You have already had that shard", "", "");
+    return;
+  }
+  var doc, data;
+  var valid = await db.collection("exchange").where("user", "==", inv[0]).where("pid", "==", inv[1]).get().then(qs => {
+    if(qs.size) {
+      if(qs.docs[0].data.shared >= 5) return 0;
+      doc = qs.docs[0].id;
+      data = qs.docs[0].data();
+    }
+    return qs.size;
+  });
+  if(valid) {
+    db.collection("exchange").doc(doc).update({shared: firebase.firestore.FieldValue.increment(1)});
+    db.collection("exchange").doc(api.gen.docid()).set({
+      belong: data.belong,
+      pid: data.pid,
+      position: data.position,
+      shared: 0,
+      time: new Date(),
+      user: api.account.user().uid,
+      from: inv[0]
+    }).then(() => {
+      Swal.fire("New Shard", "You got a new shard of "+data.belong, "success");
+    });
+  }
+}
+
 function SIGN() {
   if(api.sign.data.last.toMillis() + 72000000 > Date.now()) {
     console.log("SIGN FAILED");
@@ -303,7 +336,17 @@ var GET = (function(){
   }
   return m;
 })();
+
 firebase.auth().onAuthStateChanged(() => {
+  if(GET["invitation"]) {
+    if(api.account.user() === null) {
+
+    }
+    else {
+      getShared(GET["invitation"]);
+    }
+  }
+
   if(api.account.user() === null) {
     Array.from(document.getElementsByClassName("nav-s-in")).forEach(elm => {elm.style.display = "none"});
     togglePage("signin");
