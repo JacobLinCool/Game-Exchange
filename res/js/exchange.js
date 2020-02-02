@@ -209,7 +209,7 @@ async function parseCollection(raw) {
         shareCopyBox.classList.add("input-group-append");
         shareCopyBtn.classList.add("input-group-text", "copyBtn");
         shareCopyBtn.innerHTML = "Copy";
-        shareCopyBtn.dataset.clipboardText = shareInput.value = location.href + "?invitation=" + api.account.user().uid + ";" + speice.pid;
+        shareCopyBtn.dataset.clipboardText = shareInput.value = location.origin + location.pathname + "?invitation=" + api.account.user().uid + ";" + speice.pid;
         shareCopyBtn.onclick = function(){Swal.fire("Copied!", "Share the invitation to others!", "success")};
         shareCopyBox.appendChild(shareCopyBtn);
         shareBox.appendChild(shareInput);
