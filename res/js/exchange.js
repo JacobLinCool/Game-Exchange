@@ -159,6 +159,7 @@ async function parseCollection(raw) {
       var r = document.createElement("tr");
       for(var j = 0; j < area[1]; j++) {
         var d = document.createElement("td");
+        d.style.width = d.style.height = "" + (300 / area[0]) + "px";
         r.appendChild(d);
       }
       puzzle.appendChild(r);
@@ -168,6 +169,7 @@ async function parseCollection(raw) {
       var speice = c[collection][i];
       var img = document.createElement("img");
       img.src = await api.image.get(speice.belong, speice.pid);
+      img.style.width = img.style.height = "" + (300 / area[0]) + "px";
       speice.position = [JSON.parse(speice.position)[2],JSON.parse(speice.position)[3]];
       puzzle.children[speice.position[0]].children[speice.position[1]].appendChild(img);
       progress.innerHTML = ""+(Number(i)+1)+" / "+(area[0]*area[1]);
@@ -176,7 +178,7 @@ async function parseCollection(raw) {
     barrier.appendChild(progress);
     if(g+1 < (area[0]*area[1])) cc.appendChild(barrier);
     cc.appendChild(puzzle);
-    document.getElementById("ld-c").remove();
+    cc.appendChild(document.createElement("br"));
 
     // share page
     var cont = document.getElementById("share-container");
@@ -224,8 +226,9 @@ async function parseCollection(raw) {
       collec.appendChild(list);
       cont.appendChild(collec);
     }
-    document.getElementById("ld-c2").remove();
   }
+  document.getElementById("ld-c").remove();
+  document.getElementById("ld-c2").remove();
 }
 
 async function getNew() {

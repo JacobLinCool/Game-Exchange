@@ -1,6 +1,6 @@
 * {
     font-family: Verdana, '微軟正黑體', 'Microsoft JhengHei', 'PingFang', sans-serif;
-    letter-spacing: 1px;
+    letter-spacing: 0.6px;
 }
 .wrapper {
   width: 100%;
@@ -18,8 +18,6 @@ a, a:link, a:visited {
   color: #1a73e8;
 }
 td, td > img {
-  width: 100px;
-  height: 100px;
   border: 0.5px solid gray;
 }
 tr, td {
@@ -38,4 +36,11 @@ tr, td {
 }
 .share-box {
   max-width: 45vw;
+}
+.credit-img {
+  max-width: 100px;
+  max-height: 100px;
+}
+.credit-des, .credit-des > a {
+  color: rgba(0,0,0,.6) !important;
 }
