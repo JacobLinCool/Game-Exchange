@@ -20,6 +20,7 @@ window.api = {
         console.log("ACCOUNT CREATED. "+user);
       })
       .then(() => {
+        firebase.database().ref('users/' + api.account.user().uid).set({display: name});
         api.account.user().updateProfile({displayName: name})
         .then(() => {
           console.log("ACCOUNT NAME SET.");
