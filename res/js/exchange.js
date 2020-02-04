@@ -268,11 +268,12 @@ async function getNew() {
 }
 
 async function getShared(invitation) {
-  Swal.fire("Checking Invitation...", "", "info");
+  try{history.replaceState({page: "home"}, "Game: Exchange", "./");} catch(e) {}
+  Swal.fire("Checking Invitation", "<span class='spinner-border spinner-border-sm'></span>");
   var inv = invitation.split(";");
   var had = await db.collection("exchange").where("user", "==", api.account.user().uid).where("pid", "==", inv[1]).get().then(qs => qs.size);
   if(had) {
-    Swal.fire("You have already had that shard", "", "");
+    Swal.fire("You have already had that shard");
     return;
   }
   var doc, data;
@@ -285,6 +286,7 @@ async function getShared(invitation) {
     return qs.size;
   });
   if(valid) {
+    db.collection("user").doc(data.user).update({shared: firebase.firestore.FieldValue.increment(1)});
     db.collection("exchange").doc(doc).update({shared: firebase.firestore.FieldValue.increment(1)});
     db.collection("exchange").doc(api.gen.docid()).set({
       belong: data.belong,
@@ -340,7 +342,7 @@ var GET = (function(){
 firebase.auth().onAuthStateChanged(() => {
   if(GET["invitation"]) {
     if(api.account.user() === null) {
-
+      Swal.fire("You got an invitation!", "Sign In or Sign Up to get the shard.", "info");
     }
     else {
       getShared(GET["invitation"]);
